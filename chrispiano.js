@@ -18,6 +18,96 @@ var freqs = [440,466.164,493.883,523.251,554.365,587.33,622.254,659.255,698.456,
 //  //    	}
 // 	// });
 // }
+
+
+document.addEventListener("keydown", function(event) {
+	var tempKey = String.fromCharCode(event.keyCode)
+	console.log(tempKey)
+	
+    if (tempKey=='M'){
+    	note0.play()
+    	console.log(0)
+    }
+    
+    else if (tempKey==0){
+    	note10.play()
+    	console.log(10)
+    }
+    else if ((tempKey=='-')||(tempKey=="½")){
+    	note11.play()
+    	console.log(11)
+    }
+    else if ((tempKey=='=')||(tempKey=="»")){
+    	note12.play()
+    	console.log(12)
+    }
+
+	else{
+		var tempNum = Number(tempKey)
+		console.log(tempNum)
+		if (1<=tempNum){
+    	eval("note"+tempKey).play()
+    	console.log("1-10")
+    	}
+    }
+
+})
+document.addEventListener("keyup", function(event) {
+	var tempKey = String.fromCharCode(event.keyCode)
+	console.log(tempKey)
+	
+    if (tempKey=='M'){
+    	note0.stop()
+    	console.log(0)
+    }
+    
+    else if (tempKey==0){
+    	note10.stop()
+    	console.log(10)
+    }
+     else if ((tempKey=='-')||(tempKey=="½")){
+    	note11.stop()
+    	console.log(11)
+    }
+    else if ((tempKey=='=')||(tempKey=="»")){
+    	note12.stop()
+    	console.log(12)
+    }
+
+
+	else{
+		var tempNum = Number(tempKey)
+		console.log(tempNum)
+		if (1<=tempNum){
+    	eval("note"+tempKey).stop()
+    	console.log("1-10")
+    	}
+    }
+
+})
+
+// document.addEventListener("keyup", function(event) {
+// 	var tempKey = String.fromCharCode(event.keyCode)
+// 	console.log(tempKey)
+//     if (tempKey=='`'){
+//     	change(notes[0])
+//     	console.log(0)
+//     }
+//     else if (0<tempKey<10){
+//     	change(notes[tempKey])
+//     	console.log("1-10")
+//     }
+//     else if (tempKey=='-'){
+//     	change(notes[11])
+//     	console.log(11)
+//     }
+//     else if (tempKey=='='){
+//     	change(notes[12])
+//     	console.log(12)
+//     }
+// })
+
+
 document.getElementById('keyText').innerHTML = "A"
 
 for (var i=0; i<notes.length; i++){
