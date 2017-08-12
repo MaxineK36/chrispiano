@@ -18,94 +18,87 @@ var freqs = [440,466.164,493.883,523.251,554.365,587.33,622.254,659.255,698.456,
 //  //    	}
 // 	// });
 // }
+// document.addEventListener("keypress", function(event) {
+//     console.log('i')
+//     var okey = Number(event.keyCode)
+//     console.log(okey-1);
+//     if (okey==38){
+//         changeOctave(1)
+//          console.log('octavechange')
+//     }
+//     else if (okey==40){
+//         changeOctave(-1)
+//          console.log('octavechange')
+//     }
+
+// })
+
 
 
 document.addEventListener("keydown", function(event) {
 	var tempKey = String.fromCharCode(event.keyCode)
 	console.log(tempKey)
-	
-    if (tempKey=='M'){
-    	note0.play()
-    	console.log(0)
+    var key = event.keyCode
+    console.log("keycode: "+event.keyCode)
+    if ((key==189)||(key==45)){
+        console.log("it's a minus!")
+        note11.play()
     }
-    
-    else if (tempKey==0){
-    	note10.play()
-    	console.log(10)
+    else if ((key==187)||(key==61)){
+        console.log("it's an equals")
+        note12.play()
     }
-    else if ((tempKey=='-')||(tempKey=="½")){
-    	note11.play()
-    	console.log(11)
+    else if (key==192){
+        console.log("its a weird thing!")
+        note0.play()
     }
-    else if ((tempKey=='=')||(tempKey=="»")){
-    	note12.play()
-    	console.log(12)
+    else if (key==48){
+        note10.play()
+         console.log(0)
     }
-
-	else{
-		var tempNum = Number(tempKey)
-		console.log(tempNum)
-		if (1<=tempNum){
-    	eval("note"+tempKey).play()
-    	console.log("1-10")
-    	}
+    else if (key==38){
+        changeOctave(1)
+         console.log('octavechange')
     }
-
+    else if (key==40){
+        changeOctave(-1)
+         console.log('octavechange')
+    }
+    if((isNaN(tempKey)==false)&&(Number(tempKey)>0)){
+        console.log(tempKey + " is a number bigger than 0");
+        eval("note"+tempKey).play()
+     }
 })
+
+
 document.addEventListener("keyup", function(event) {
-	var tempKey = String.fromCharCode(event.keyCode)
-	console.log(tempKey)
-	
-    if (tempKey=='M'){
-    	note0.stop()
-    	console.log(0)
+    var tempKey = String.fromCharCode(event.keyCode)
+    console.log(tempKey)
+    var key = event.keyCode
+    console.log("keycode: "+event.keyCode)
+    if (key==189){
+        console.log("it's a minus!")
+        note11.stop()
     }
-    
+    else if (key==187){
+        console.log("it's an equals")
+        note12.stop()
+    }
+    else if (key==192){
+        console.log("its a weird thing!")
+        note0.stop()
+    }
     else if (tempKey==0){
-    	note10.stop()
-    	console.log(10)
+        note10.stop()
+         console.log(0)
     }
-     else if ((tempKey=='-')||(tempKey=="½")){
-    	note11.stop()
-    	console.log(11)
-    }
-    else if ((tempKey=='=')||(tempKey=="»")){
-    	note12.stop()
-    	console.log(12)
-    }
-
-
-	else{
-		var tempNum = Number(tempKey)
-		console.log(tempNum)
-		if (1<=tempNum){
-    	eval("note"+tempKey).stop()
-    	console.log("1-10")
-    	}
-    }
-
+    if((isNaN(tempKey)==false)&&(Number(tempKey)>0)){
+        console.log(tempKey + " is a number bigger than 0");
+        eval("note"+tempKey).stop()
+     }
 })
 
-// document.addEventListener("keyup", function(event) {
-// 	var tempKey = String.fromCharCode(event.keyCode)
-// 	console.log(tempKey)
-//     if (tempKey=='`'){
-//     	change(notes[0])
-//     	console.log(0)
-//     }
-//     else if (0<tempKey<10){
-//     	change(notes[tempKey])
-//     	console.log("1-10")
-//     }
-//     else if (tempKey=='-'){
-//     	change(notes[11])
-//     	console.log(11)
-//     }
-//     else if (tempKey=='='){
-//     	change(notes[12])
-//     	console.log(12)
-//     }
-// })
+
 
 
 document.getElementById('keyText').innerHTML = "A"
@@ -274,6 +267,93 @@ function stopAll(){
 	}
 }
 
+
+
+//Graveyard:
+
+    
+ //    if (tempKey=='M'){
+ //     
+ //    }
+    
+ //    else if (tempKey==0){
+ //     note10.play()
+ //     console.log(10)
+ //    }
+ //    else if ((tempKey=='-')||(tempKey=="½")){
+ //     note11.play()
+ //     console.log(11)
+ //    }
+ //    else if ((tempKey=='=')||(tempKey=="»")){
+ //     note12.play()
+ //     console.log(12)
+ //    }
+
+    // else{
+    //  var tempNum = Number(tempKey)
+    //  console.log(tempNum)
+    //  if (1<=tempNum){
+ //     eval("note"+tempKey).play()
+ //     console.log("1-10")
+ //     }
+ //    }
+
+
+
+// document.addEventListener("keyup", function(event) {
+//  var tempKey = String.fromCharCode(event.keyCode)
+//  console.log(tempKey)
+    
+//     if (tempKey=='M'){
+//      note0.stop()
+//      console.log(0)
+//     }
+    
+//     else if (tempKey==0){
+//      note10.stop()
+//      console.log(10)
+//     }
+//      else if ((tempKey=='-')||(tempKey=="½")){
+//      note11.stop()
+//      console.log(11)
+//     }
+//     else if ((tempKey=='=')||(tempKey=="»")){
+//      note12.stop()
+//      console.log(12)
+//     }
+
+
+//  else{
+//      var tempNum = Number(tempKey)
+//      console.log(tempNum)
+//      if (1<=tempNum){
+//      eval("note"+tempKey).stop()
+//      console.log("1-10")
+//      }
+//     }
+
+// })
+
+// document.addEventListener("keyup", function(event) {
+//  var tempKey = String.fromCharCode(event.keyCode)
+//  console.log(tempKey)
+//     if (tempKey=='`'){
+//      change(notes[0])
+//      console.log(0)
+//     }
+//     else if (0<tempKey<10){
+//      change(notes[tempKey])
+//      console.log("1-10")
+//     }
+//     else if (tempKey=='-'){
+//      change(notes[11])
+//      console.log(11)
+//     }
+//     else if (tempKey=='='){
+//      change(notes[12])
+//      console.log(12)
+//     }
+// })
 
 
 
