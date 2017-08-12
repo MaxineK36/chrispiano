@@ -410,9 +410,11 @@
 	Pizzicato.Sound.prototype = Object.create(Pizzicato.Events, {
 	
 		play: {
+
 			enumerable: true,
 	
 			value: function(when, offset) {
+				changeColor(this.note);
 	
 				if (this.playing)
 					return;
