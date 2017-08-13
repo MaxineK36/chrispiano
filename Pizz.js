@@ -414,7 +414,6 @@
 			enumerable: true,
 	
 			value: function(when, offset) {
-				changeColor(this.note);
 	
 				if (this.playing)
 					return;
