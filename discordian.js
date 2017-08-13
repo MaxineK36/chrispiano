@@ -1,5 +1,5 @@
 
-console.log('hi')
+console.log('1216')
 // var on = false;
 var A
 var Bb
@@ -270,9 +270,6 @@ function stopAll(){
 	}
 }
 
-function changeColor(note){
-    alert(note)
-}
 
 
 
