@@ -1,104 +1,57 @@
-
-console.log('1216')
-// var on = false;
-var A
-var Bb
-var B
-
 var notes = ["A","Bb","B","C","Db","D","Eb","E","F","Gb","G","Ab","A2"]
 var freqs = [440,466.164,493.883,523.251,554.365,587.33,622.254,659.255,698.456,783.991,830.609,880]
-
-// for (var i=0; i<notes.length; i++){
-// 	 notes[i] = new Pizzicato.Sound();
-// 	 notes[i].source = 'wave'
-// 	 notes[i].options = "{ frequency: "+freqs[i]+",}" 
-// 	//  	source: 'wave', 
-//  //    	options: {
-//  //        	frequency: freqs[i],
-//  //    	}
-// 	// });
-// }
-// document.addEventListener("keypress", function(event) {
-//     console.log('i')
-//     var okey = Number(event.keyCode)
-//     console.log(okey-1);
-//     if (okey==38){
-//         changeOctave(1)
-//          console.log('octavechange')
-//     }
-//     else if (okey==40){
-//         changeOctave(-1)
-//          console.log('octavechange')
-//     }
-
-// })
+var colors = [[219,85,73],[241,150,51],[247,194,56],[255,231,78],[194,213,62],[137,176,58],[21,151,144],[61,132,181],[91,83,143],[146,79,143],[214,84,129],[221,69,90]]
 
 
+var test = 5%12
+//test = 5
 
 document.addEventListener("keydown", function(event) {
 	var tempKey = String.fromCharCode(event.keyCode)
-	console.log(tempKey)
     var key = event.keyCode
-    console.log("keycode: "+event.keyCode)
     if ((key==189)||(key==45)){
-        console.log("it's a minus!")
-        note11.play()
+        notePressed("note11")
     }
     else if ((key==187)||(key==61)){
-        console.log("it's an equals")
-        note12.play()
+        notePressed("note12")
     }
     else if (key==192){
-        console.log("its a weird thing!")
-        note0.play()
+        notePressed("note0")
     }
     else if (key==48){
-        note10.play()
-         console.log(0)
+        notePressed("note10")
     }
     else if (key==38){
         changeOctave(1)
-         console.log('octavechange')
     }
     else if (key==40){
         changeOctave(-1)
-         console.log('octavechange')
     }
     if((isNaN(tempKey)==false)&&(Number(tempKey)>0)){
-        console.log(tempKey + " is a number bigger than 0");
-        eval("note"+tempKey).play()
+       notePressed("note"+tempKey)
      }
 })
 
 
 document.addEventListener("keyup", function(event) {
     var tempKey = String.fromCharCode(event.keyCode)
-    console.log(tempKey)
     var key = event.keyCode
-    console.log("keycode: "+event.keyCode)
     if (key==189){
-        console.log("it's a minus!")
-        note11.stop()
+        noteUnpressed("note11")
     }
     else if (key==187){
-        console.log("it's an equals")
-        note12.stop()
+        noteUnpressed("note12")
     }
     else if (key==192){
-        console.log("its a weird thing!")
-        note0.stop()
+        noteUnpressed("note0")
     }
     else if (tempKey==0){
-        note10.stop()
-         console.log(0)
+        noteUnpressed("note10")
     }
     if((isNaN(tempKey)==false)&&(Number(tempKey)>0)){
-        console.log(tempKey + " is a number bigger than 0");
-        eval("note"+tempKey).stop()
+        noteUnpressed("note"+tempKey)
      }
 })
-
-
 
 
 document.getElementById('keyText').innerHTML = "A"
@@ -106,10 +59,9 @@ document.getElementById('keyText').innerHTML = "A"
 for (var i=0; i<notes.length; i++){
 	 var button = document.createElement("button");
 	 button.innerHTML = i
-	 button.value = 0
-	 button.id = notes[i]
+	 button.value = i
+	 button.id = "note"+i
 	 button.classList.add('note');
-	 // button.onclick = "change("+notes[i]+")"
  	 button.onclick = function(){
  	 	change(this.id)
  	 } 
@@ -121,16 +73,16 @@ for (var i=0; i<notes.length; i++){
 	 button.innerHTML = notes[i]
 	 button.value = i
 	 button.classList.add('key');
-	 // button.onclick = "change("+notes[i]+")"
  	 button.onclick = function(){
  	 	changeKey(this.value)
  	 } 
 	 document.getElementById("test").appendChild(button)
 }
 
+// changeKey(1)
+
 var note0 = new Pizzicato.Sound({ 
     source: 'wave', 
-    note: notes[0],
     options: {
         frequency: 440,
        
@@ -139,7 +91,6 @@ var note0 = new Pizzicato.Sound({
 
 var note1 = new Pizzicato.Sound({ 
     source: 'wave', 
-    note: notes[1],
     options: {
         frequency: 466.164,
     }
@@ -147,7 +98,6 @@ var note1 = new Pizzicato.Sound({
 
 var note2 = new Pizzicato.Sound({ 
     source: 'wave', 
-    note: notes[2],
     options: {
         frequency: 493.883,
     }
@@ -229,7 +179,6 @@ function changeOctave(value){
 		for (var i =0; i<notes.length; i++){
 			eval("note"+i).frequency = eval("note"+i).frequency*2
 		}
-		// B.frequency = B.frequency*2
 	}
 	else if (value==-1){
 		
@@ -239,20 +188,10 @@ function changeOctave(value){
 	}
 }
 
-function changeKey(multiplier){
-	for (var i =0; i<notes.length; i++){
-		eval("note"+i).frequency = eval("note"+i).frequency*Math.pow(1.05946, multiplier);
-	}
-	document.getElementById('keyText').innerHTML = notes[multiplier]
-
-}
 
 function change(note){
-	var num = document.getElementById(note).innerHTML
-	console.log("note number " + num);
-	var tempNote = eval("note" + num)
+	var tempNote = eval("note" + document.getElementById(note).innerHTML)
 	var on = document.getElementById(note).value
-	console.log("is it on? " + on)
 	if (on==1){
 		tempNote.stop()
 		document.getElementById(note).value=0;
@@ -270,98 +209,68 @@ function stopAll(){
 	}
 }
 
-
-
-
-//Graveyard:
-
-    
- //    if (tempKey=='M'){
- //     
- //    }
-    
- //    else if (tempKey==0){
- //     note10.play()
- //     console.log(10)
- //    }
- //    else if ((tempKey=='-')||(tempKey=="½")){
- //     note11.play()
- //     console.log(11)
- //    }
- //    else if ((tempKey=='=')||(tempKey=="»")){
- //     note12.play()
- //     console.log(12)
- //    }
-
+function notePressed(noteName){
+    console.log('stopping')
+    eval(noteName).play();
+    var currentF = (Number(eval(noteName).frequency))
+    var realF = (freqs[document.getElementById(noteName).value])
+    console.log("current "+currentF)
+    console.log("real "+realF)
+    var multiplier = Math.round(Math.log(currentF/realF)/Math.log(1.05946))
+    console.log("mult "+multiplier)
+    console.log("val "+document.getElementById(noteName).value)
+    var color = (Number(multiplier)+Number(document.getElementById(noteName).value))%12
+    console.log("col" +color)
+    document.getElementById(noteName).style.backgroundColor = colorMe(color,1)
+    // if (color>11){
+    //      document.getElementById(String(noteName)).style.backgroundColor = "rgba("+colors[color-11][0]+","+colors[color-11][1]+","+colors[color-11][2]+",1)"
+    // }
     // else{
-    //  var tempNum = Number(tempKey)
-    //  console.log(tempNum)
-    //  if (1<=tempNum){
- //     eval("note"+tempKey).play()
- //     console.log("1-10")
- //     }
- //    }
+    //     document.getElementById(String(noteName)).style.backgroundColor = "rgba("+colors[color+1][0]+","+colors[color+1][1]+","+colors[color+1][2]+",1)"
+    // }
+
+}
+
+function noteUnpressed(noteName){
+    console.log('stopping')
+    eval(noteName).stop();
+    var currentF = (Number(eval(noteName).frequency))
+    var realF = (freqs[document.getElementById(noteName).value])
+    console.log("current "+currentF)
+    console.log("real "+realF)
+    var multiplier = Math.round(Math.log(currentF/realF)/Math.log(1.05946))
+    console.log("mult "+multiplier)
+    console.log("val "+document.getElementById(noteName).value)
+    var color = (Number(multiplier)+Number(document.getElementById(noteName).value))%12
+    console.log("col" +color)
+    document.getElementById(noteName).style.backgroundColor = colorMe(color,0.7)
+
+    // if (color>11){
+    //      document.getElementById(String(noteName)).style.backgroundColor = "rgba("+colors[color-11][0]+","+colors[color-11][1]+","+colors[color-11][2]+",0.5)"
+    // }
+    // else{
+    //     document.getElementById(String(noteName)).style.backgroundColor = "rgba("+colors[color+1][0]+","+colors[color+1][1]+","+colors[color+1][2]+",0.5)"
+    // }
+
+}
+
+function colorMe(index,transparency){
+    var newColor = String("rgba("+colors[index][0]+","+colors[index][1]+","+colors[index][2]+","+transparency+")")
+    return newColor;
+}
 
 
-
-// document.addEventListener("keyup", function(event) {
-//  var tempKey = String.fromCharCode(event.keyCode)
-//  console.log(tempKey)
-    
-//     if (tempKey=='M'){
-//      note0.stop()
-//      console.log(0)
-//     }
-    
-//     else if (tempKey==0){
-//      note10.stop()
-//      console.log(10)
-//     }
-//      else if ((tempKey=='-')||(tempKey=="½")){
-//      note11.stop()
-//      console.log(11)
-//     }
-//     else if ((tempKey=='=')||(tempKey=="»")){
-//      note12.stop()
-//      console.log(12)
-//     }
-
-
-//  else{
-//      var tempNum = Number(tempKey)
-//      console.log(tempNum)
-//      if (1<=tempNum){
-//      eval("note"+tempKey).stop()
-//      console.log("1-10")
-//      }
-//     }
-
-// })
-
-// document.addEventListener("keyup", function(event) {
-//  var tempKey = String.fromCharCode(event.keyCode)
-//  console.log(tempKey)
-//     if (tempKey=='`'){
-//      change(notes[0])
-//      console.log(0)
-//     }
-//     else if (0<tempKey<10){
-//      change(notes[tempKey])
-//      console.log("1-10")
-//     }
-//     else if (tempKey=='-'){
-//      change(notes[11])
-//      console.log(11)
-//     }
-//     else if (tempKey=='='){
-//      change(notes[12])
-//      console.log(12)
-//     }
-// })
-
-
-
-
-
-
+function changeKey(multiplierStr){
+    var multiplier = Number(multiplierStr)
+    console.log("m" + multiplier)
+    for (var i=0; i<notes.length; i++){
+        var color = Number((i+multiplier))%12
+        console.log("c" +color)
+        document.getElementById("note"+i).style.backgroundColor = colorMe(color,0.7)
+        eval("note"+i).frequency = eval("note"+i).frequency*Math.pow(1.05946, multiplier);
+        
+    }
+    console.log('keychanged')
+    document.getElementById('keyText').innerHTML = notes[multiplier]
+}
 
