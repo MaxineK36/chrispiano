@@ -267,21 +267,6 @@ function noteUnpressed(noteName){
     }
 }
 
-// function clickPress(note){
-//     var tempNote = eval("note" + document.getElementById(note).innerHTML)
-//     tempNote.play();
-//     var on = document.getElementById(note).value
-//     if (on==1){
-//         tempNote.stop()
-//         document.getElementById(note).value=0;
-//     }
-//     else if (on==0){
-//         tempNote.play()
-//         document.getElementById(note).value=1;
-//     }
-
-// }
-
 function colorMe(color,transparency){
     var array = String(color).split(",")
     console.log(array)
@@ -299,7 +284,7 @@ function changeKey(multiplierStr){
         console.log("c" +color)
         document.getElementById("note"+i).style.backgroundColor = colorMe(colors[color],0.6)
         document.getElementById("note"+i).value = colors[color]
-        eval("note"+i).frequency = eval("note"+i).frequency*Math.pow(1.05946, multiplier);
+        eval("note"+i).frequency = freqs[i]*Math.pow(1.05946, multiplier);
         
     }
     console.log('keychanged')
