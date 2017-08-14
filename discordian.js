@@ -1,14 +1,13 @@
-console.log("11:42")
+console.log("12:03")
 
 var notes = ["A","Bb","B","C","Db","D","Eb","E","F","Gb","G","Ab","A2"]
-var freqs = [440,466.164,493.883,523.251,554.365,587.33,622.254,659.255,698.456,783.991,830.609,880]
-// var colors = [[219,85,73],[241,150,51],[247,194,56],[255,231,78],[194,213,62],[137,176,58],[21,151,144],[61,132,181],[91,83,143],[146,79,143],[214,84,129],[221,69,90]]
+var freqs = [440,466.164,493.883,523.251,554.365,587.33,622.254,659.255,698.456,739.989, 783.991,830.609,880]
+
 var colors = ["219,85,73","241,150,51","247,194,56","255,231,78","194,213,62","137,176,58","21,151,144","61,132,181","91,83,143","146,79,143","214,84,129","221,69,90"]
 var chrisColors = ["0,0,0","50,50,50","0, 102, 255","255,0,255","0,204,0","102,51,0","102,0,255","255,0,0","255, 102, 0","255,255,255","210,210,210","255,255,0"]
 
 var test = 5%12
 var colorMethod;
-//test = 5
 
 
 document.addEventListener("keydown", function(event) {
@@ -98,7 +97,6 @@ for (var i=0; i<notes.length; i++){
 
 setColors('notes');
 
-// changeKey(1)
 
 var note0 = new Pizzicato.Sound({ 
     source: 'wave', 
@@ -229,18 +227,18 @@ function changeOctave(value){
 }
 
 
-function change(note){
-	var tempNote = eval("note" + document.getElementById(note).innerHTML)
-	var on = document.getElementById(note).value
-	if (on==1){
-		tempNote.stop()
-		document.getElementById(note).value=0;
-	}
-	else if (on==0){
-		tempNote.play()
-		document.getElementById(note).value=1;
-	}
-}
+// function change(note){
+// 	var tempNote = eval("note" + document.getElementById(note).innerHTML)
+// 	var on = document.getElementById(note).value
+// 	if (on==1){
+// 		tempNote.stop()
+// 		document.getElementById(note).value=0;
+// 	}
+// 	else if (on==0){
+// 		tempNote.play()
+// 		document.getElementById(note).value=1;
+// 	}
+// }
 
 function stopAll(){
 	for (var i =0; i<notes.length; i++){
@@ -250,19 +248,15 @@ function stopAll(){
 }
 
 function notePressed(noteName){
-    console.log('playing')
     eval(noteName).play();
     var currentColor = document.getElementById(noteName).value
-    console.log(currentColor + " current")
     document.getElementById(noteName).style.backgroundColor = colorMe(currentColor,1)
 
 }
 
 function noteUnpressed(noteName){
-    console.log('stopping')
     eval(noteName).stop();
     var currentColor = document.getElementById(noteName).value
-    console.log(currentColor)
     document.getElementById(noteName).style.backgroundColor = colorMe(currentColor,0.4)
     if (colorMethod=="intervals"){
          document.getElementById(noteName).style.backgroundColor = colorMe("242,242,242",1)
@@ -271,9 +265,7 @@ function noteUnpressed(noteName){
 
 function colorMe(color,transparency){
     var array = String(color).split(",")
-    console.log(array)
     var newColor = String("rgba("+array[0]+","+array[1]+","+array[2]+","+transparency+")")
-    console.log(newColor)
     return newColor;
 }
 
@@ -283,10 +275,11 @@ function changeKey(multiplierStr){
     console.log("m" + multiplier)
     for (var i=0; i<notes.length; i++){
         var color = Number((i+multiplier))%12
-        console.log("c" +color)
         document.getElementById("note"+i).style.backgroundColor = colorMe(colors[color],0.6)
         document.getElementById("note"+i).value = colors[color]
+        console.log("current f "+i+" "+eval("note"+i).frequency)
         eval("note"+i).frequency = freqs[i]*Math.pow(1.05946, multiplier);
+        console.log("new f "+i+" "+eval("note"+i).frequency)
         
     }
     console.log('keychanged')
