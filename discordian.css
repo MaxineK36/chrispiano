@@ -6,4 +6,12 @@ button{
 	color: black;
 	height: 50%;
 	width: 7.69%;
+	background-color: rgb(240,240,240);
+	border-color: gray;
+	box-shadow: none;
+	margin-left: -0.15%;
+}
+
+#note0{
+	margin-left: 1%;
 }

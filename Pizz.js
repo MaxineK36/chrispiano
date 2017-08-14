@@ -414,6 +414,7 @@
 			enumerable: true,
 	
 			value: function(when, offset) {
+				// changeColor(this.frequency);
 	
 				if (this.playing)
 					return;

@@ -1,14 +1,16 @@
 
 <html>
   <head>
-  	 <link rel="stylesheet" href="discordian.css">
-    
+  	<link rel="stylesheet" href="discordian.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <body>
   	<div id="test">
   	</div>
   	<button onclick="stopAll();" class='notNote'> Stop All </button>
   	<button onclick="changeOctave(1);" class='notNote'> Octave Up </button>
   	<button onclick="changeOctave(-1);" class='notNote'> Octave Down </button>
+    <button onclick="setColors('notes');" class='notNote'> Note-based Colors </button>
+    <button onclick="setColors('intervals');" class='notNote'> Interval-based Colors </button>
 
   	<div id='keyText'> </div>
     <script src = "Pizz.js"> </script>
