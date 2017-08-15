@@ -4,16 +4,26 @@
   	<link rel="stylesheet" href="discordian.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <body>
-  	<div id="test">
-  	</div>
-  	<button onclick="stopAll();" class='notNote'> Stop All </button>
-  	<button onclick="changeOctave(1);" class='notNote'> Octave Up </button>
-  	<button onclick="changeOctave(-1);" class='notNote'> Octave Down </button>
-    <button onclick="setColors('notes');" class='notNote'> Note-based Colors </button>
-    <button onclick="setColors('intervals');" class='notNote'> Interval-based Colors </button>
+  	<div id="keys"></div>
 
-  	<div id='keyText'> </div>
-    <script src = "Pizz.js"> </script>
+    <div id="keyChanges"> <span class="subtext"> Key: </span> </div>
+
+    <div id="octaveChanges"> 
+      <span class="subtext"> Octave Adjustments: </span>
+    	<button onclick="changeOctave(1);" class='otherButton'> Octave Up </button>
+    	<button onclick="changeOctave(-1);" class='otherButton'> Octave Down </button>
+    </div>
+
+    <div id="colorScheme"> 
+      <span class="subtext"> Color Scheme: </span>
+        <button onclick="setColors('notes');" class='otherButton'> Note-based Colors </button>
+        <button onclick="setColors('intervals');" class='otherButton'> Interval-based Colors </button>
+    </div>
+
+   
+
+  	<div id='keyText' style="color: white;"> </div>
+    <script src = "Pizz2.js"> </script>
     <script src = "discordian.js"> </script>
   </body>
 </html>

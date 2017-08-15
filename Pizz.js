@@ -2450,72 +2450,72 @@
 		return curve;
 	}
 	
-	Pizzicato.Effects.Quadrafuzz.prototype = Object.create(baseEffect, {
+	// Pizzicato.Effects.Quadrafuzz.prototype = Object.create(baseEffect, {
 	
-		lowGain: {
-			enumerable: true,
+	// 	lowGain: {
+	// 		enumerable: true,
 	
-			get: function() {
-				return this.options.lowGain;
-			},
+	// 		get: function() {
+	// 			return this.options.lowGain;
+	// 		},
 	
-			set: function(lowGain) {
-				if (!Pz.Util.isInRange(lowGain, 0, 1))
-					return;
+	// 		set: function(lowGain) {
+	// 			if (!Pz.Util.isInRange(lowGain, 0, 1))
+	// 				return;
 	
-				this.options.lowGain = lowGain;
-				this.overdrives[0].curve = getDistortionCurve(Pz.Util.normalize(this.lowGain, 0, 150));
-			}
-		},
+	// 			this.options.lowGain = lowGain;
+	// 			this.overdrives[0].curve = getDistortionCurve(Pz.Util.normalize(this.lowGain, 0, 150));
+	// 		}
+	// 	},
 	
-		midLowGain: {
-			enumerable: true,
+	// 	midLowGain: {
+	// 		enumerable: true,
 	
-			get: function() {
-				return this.options.midLowGain;
-			},
+	// 		get: function() {
+	// 			return this.options.midLowGain;
+	// 		},
 	
-			set: function(midLowGain) {
-				if (!Pz.Util.isInRange(midLowGain, 0, 1))
-					return;
+	// 		set: function(midLowGain) {
+	// 			if (!Pz.Util.isInRange(midLowGain, 0, 1))
+	// 				return;
 	
-				this.options.midLowGain = midLowGain;
-				this.overdrives[1].curve = getDistortionCurve(Pz.Util.normalize(this.midLowGain, 0, 150));
-			}
-		},
+	// 			this.options.midLowGain = midLowGain;
+	// 			this.overdrives[1].curve = getDistortionCurve(Pz.Util.normalize(this.midLowGain, 0, 150));
+	// 		}
+	// 	},
 	
-		midHighGain: {
-			enumerable: true,
+	// 	midHighGain: {
+	// 		enumerable: true,
 	
-			get: function() {
-				return this.options.midHighGain;
-			},
+	// 		get: function() {
+	// 			return this.options.midHighGain;
+	// 		},
 	
-			set: function(midHighGain) {
-				if (!Pz.Util.isInRange(midHighGain, 0, 1))
-					return;
+	// 		set: function(midHighGain) {
+	// 			if (!Pz.Util.isInRange(midHighGain, 0, 1))
+	// 				return;
 	
-				this.options.midHighGain = midHighGain;
-				this.overdrives[2].curve = getDistortionCurve(Pz.Util.normalize(this.midHighGain, 0, 150));
-			}
-		},
+	// 			this.options.midHighGain = midHighGain;
+	// 			this.overdrives[2].curve = getDistortionCurve(Pz.Util.normalize(this.midHighGain, 0, 150));
+	// 		}
+	// 	},
 	
-		highGain: {
-			enumerable: true,
+	// 	highGain: {
+	// 		enumerable: true,
 	
-			get: function() {
-				return this.options.highGain;
-			},
+	// 		get: function() {
+	// 			return this.options.highGain;
+	// 		},
 	
-			set: function(highGain) {
-				if (!Pz.Util.isInRange(highGain, 0, 1))
-					return;
+	// 		set: function(highGain) {
+	// 			if (!Pz.Util.isInRange(highGain, 0, 1))
+	// 				return;
 	
-				this.options.highGain = highGain;
-				this.overdrives[3].curve = getDistortionCurve(Pz.Util.normalize(this.highGain, 0, 150));
-			}
-		}
-	});
+	// 			this.options.highGain = highGain;
+	// 			this.overdrives[3].curve = getDistortionCurve(Pz.Util.normalize(this.highGain, 0, 150));
+	// 		}
+	// 	}
+	// });
 	
 	
 	
