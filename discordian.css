@@ -79,8 +79,8 @@ body{
 }
 
 #recording{
-	width: 50%;
-	margin-left: 25%;
+	width: 70%;
+	margin-left: 15%;
 	margin-top: 2%;
 	height: auto;
 }
@@ -95,12 +95,24 @@ table{
 }
 
 .recCell{
-/*	width: 7.629%;
-*/	
 	height: 20px;
 	width: 1.5%;
 	/*border-top: solid 0.5px white;*/
 }
 
+.rec{
+	width: 20%;
+}
 
+#clipping{
+	width: 30%;
+	margin-left: 35%;
+	margin-top: 2%;
+	height: auto;
+	color: white;
+}
+
+.clipInput{
+	width: 40px;
+}
 

@@ -38,10 +38,14 @@ var currentKeyChange = 0;
 //frequency of recordings
 var recFreq = 100
 
+//hide things
+document.getElementById("clipping").style.display = "none"
 
 //when the record button is pressed
 var recVar
+var playVar
 var currentTime = 0;
+
 function record(){
     //the record button turns red as you're recording and has a built-in timer
     document.getElementById("recordButton").style.backgroundColor="red"
@@ -52,6 +56,8 @@ function record(){
     
     //make the table visible by making the text white
     document.getElementById("recordingTable").style.color = "white"
+
+    document.getElementById("clipping").style.display = "block"
 }
 
 function unRecord(){
@@ -69,6 +75,8 @@ function recordNotes(){
    
     //sets up the line of notes for the visualiation
     var row = document.createElement("tr")
+    row.id = "row"+(currentTime/100)
+    // console.log("row id "+row.id)
 
     //labels it
     var firstCell = document.createElement("td")
@@ -77,13 +85,12 @@ function recordNotes(){
     firstCell.style.color = "white"
     row.appendChild(firstCell)
 
-//i'm going to change all of this
-    var theseNotes = []
+    var tempArray=[];
     for (var i =0; i<13; i++){
         var cell = document.createElement("td")
         cell.classList.add('recCell');
         if (onOff[i]==1){
-            theseNotes.push(1)
+            tempArray.push(1)
             cell.style.border = "solid 0.5px white"
             if (colorMethod=='intervals'){
                 cell.style.backgroundColor = colorMe(chrisColors[i],1)
@@ -92,12 +99,14 @@ function recordNotes(){
                 cell.style.backgroundColor = colorMe(document.getElementById("note"+i).value,1)
             }
         }
-        else if (onOff[i]==0){
-            theseNotes.push(0)
+        else{
+            tempArray.push(0)
         }
         row.appendChild(cell)
     }
-    notesPlayed.push(theseNotes)
+
+    notesPlayed.push(tempArray)
+    
     document.getElementById("recordingTable").appendChild(row)
 
     //increases the timer
@@ -105,13 +114,12 @@ function recordNotes(){
 }
 
 
-
 function playback(){
     document.getElementById("playbackButton").style.backgroundColor="rgb(110,110,110)"
     var counter = 0
     var length = notesPlayed.length
+
     playVar = setInterval(function(){ 
-        recordNotes(); 
         for (var j = 0; j<13; j++){
             if (notesPlayed[counter][j]==1){
                 notePressed("note"+j)
@@ -121,13 +129,40 @@ function playback(){
             }
         }
         counter++
-        console.log(counter)
         if (counter==length){
             document.getElementById("playbackButton").style.backgroundColor="white"
             console.log('clearing')
             clearInterval(playVar);
         }
-    }, recFreq);    
+    }, recFreq);  
+    stopAll();  
+}
+
+
+function resetRec(){
+    //reset the current name, the notesplayed array, and the recording table
+    currentTime = 0;
+    notesPlayed = [];
+    document.getElementById("recordingTable").innerHTML = "<tr> <th> </th> <th>0</th> <th>1</th> <th>2</th> <th>3</th> <th>4</th> <th>5</th> <th>6</th> <th>7</th> <th>8</th> <th>9</th> <th>10</th> <th>11</th> <th>12</th> </tr>"
+
+    //set the recording table text to black, get rid of the time on the record button
+    document.getElementById("recordingTable").style.color = 'black'
+    document.getElementById("recordButton").innerHTML = "Record"
+}
+
+
+function clip(){
+    var start = (document.getElementById("startClip").value)*10
+    var end = (document.getElementById("endClip").value)*10
+    notesPlayed = notesPlayed.slice(start, end);
+
+    for (var i=0; i<=currentTime/100; i++){
+        if ((i<start)||(i>end)){
+            document.getElementById("row"+i).style.display = "none"
+        }
+    }
+    document.getElementById("startClip").value = null
+    document.getElementById("endClip").value = null
 }
 
 
@@ -148,6 +183,13 @@ document.addEventListener("keydown", function(event) {
         notePressed("note0")
         //` key
     }
+
+    //temp
+    else if (key==77){
+        console.log(notesPlayed)
+        //` key
+    }
+
     else if (key==48){
         notePressed("note10")
         //0 key
@@ -457,3 +499,45 @@ function checkFrequencies(){
     }
 
 }
+
+function stopAll(){
+    console.log('stopping')
+    for (var i=0; i<13; i++){
+        noteUnpressed("note"+i)
+    }
+}
+
+
+//Dad's way:
+// function playback(){
+//     document.getElementById("playbackButton").style.backgroundColor="rgb(110,110,110)"
+//     var counter = 0
+//     var newStart = 0
+//     var length = currentTime-100
+//     console.log(length)
+//     playVar = setInterval(function(){ 
+//         // recordNotes(); 
+//         for (var i = newStart; i<notesPlayed.length; i++){
+//             if (notesPlayed[i][0]==(counter)){
+//                 console.log("current note number " + notesPlayed[i][0])
+//                 console.log("got 'em")
+//                 var playEm = notesPlayed[i][1].split(",");
+//                 //more efficient way to do that?
+//                 for (var j=0; j<playEm.length; j++){
+//                     notePressed()
+//                 }
+//                 // notePressed("note"+j)
+//             }
+//             else{
+//                 // noteUnpressed("note"+j)
+//             }
+//         }
+//         counter+=100
+//         console.log(counter)
+//         if (counter==length){
+//             document.getElementById("playbackButton").style.backgroundColor="white"
+//             console.log('clearing')
+//             clearInterval(playVar);
+//         }
+//     }, recFreq);    
+// }
