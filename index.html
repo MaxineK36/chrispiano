@@ -22,9 +22,17 @@
 
     <div id="recording"> 
       <span class="subtext"> Recording: </span>
-         <button onclick="record();" id="recordButton" class='otherButton'> Record </button>
-         <button onclick="unRecord();" class='otherButton'> Stop </button>
-         <button onclick="playback();" id="playbackButton" class='otherButton'> Playback </button>
+         <button onclick="record();" id="recordButton" class='otherButton rec'> Record </button>
+         <button onclick="unRecord();" class='otherButton rec'> Stop </button>
+         <button onclick="playback();" id="playbackButton" class='otherButton rec'> Playback </button>
+         <button onclick="resetRec();" id="resetButton" class='otherButton rec'> Reset </button>
+    </div>
+
+    <div id="clipping">
+      <span class="subtext"> Clip recording: </span>
+      Start <input name="startClip" id="startClip" class="clipInput"> </input> 
+      End <input name="endClip" id="endClip" class="clipInput"> </input> 
+      <button onclick="clip()"> Submit </button>
     </div>
 
      
