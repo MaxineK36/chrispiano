@@ -1,17 +1,64 @@
 console.log("12:03")
 
+var note0on=0;
+var note1on=0
+var note2on=0
+var note3on=0
+var note4on=0
+var note5on=0
+var note6on=0
+var note7on=0
+var note8on=0
+var note9on=0
+var note10on=0
+var note11on=0
+var note12on=0
+
 var notes = ["A","Bb","B","C","Db","D","Eb","E","F","Gb","G","Ab"]
+var onOff = [note0on,note1on,note2on,note3on,note4on,note5on,note6on,note7on,note8on,note9on,note10on,note11on,note12on]
 var freqs = [440,466.164,493.883,523.251,554.365,587.33,622.254,659.255,698.456,739.989, 783.991,830.609,880]
 var colors = ["219,85,73","241,150,51","247,194,56","255,231,78","194,213,62","137,176,58","21,151,144","61,132,181","91,83,143","146,79,143","214,84,129","221,69,90"]
-var chrisColors = ["0,0,0","50,50,50","0, 102, 255","255,0,255","0,204,0","102,51,0","102,0,255","255,0,0","255, 102, 0","255,255,255","220,220,220","255,255,0"]
+var chrisColors = ["20,20,20","50,50,50","0, 102, 255","255,0,255","0,204,0","102,51,0","102,0,255","255,0,0","255, 102, 0","255,255,255","220,220,220","255,255,0"]
 
-var colorMethod;
+var colorMethod = 'notes';
 var currentKeyChange = 0;
-document.getElementById('keyText').innerHTML = "A"
 
+var recVar
+function record(){
+    recVar = setInterval(function(){ recordNotes(); }, 100);
+    document.getElementById("recordingTable").style.color = "white"
+
+
+}
+
+function unRecord(){
+    clearInterval(recVar);
+}
+
+function recordNotes(){
+    var row = document.createElement("tr")
+    for (var i =0; i<13; i++){
+        var cell = document.createElement("td")
+        cell.classList.add('recCell');
+        if (onOff[i]==1){
+            cell.style.border = "solid 0.5px white"
+            // cell.style.backgroundColor = "white"
+            if (colorMethod=='intervals'){
+                cell.style.backgroundColor = colorMe(chrisColors[i],1)
+            }
+            else{
+                cell.style.backgroundColor = colorMe(document.getElementById("note"+i).value,1)
+            }
+        }
+        row.appendChild(cell)
+    }
+    document.getElementById("recordingTable").appendChild(row)
+
+}
 //keydown functions (make the notes start playing, allow for arrow keys to be used for octaves up or down)
 document.addEventListener("keydown", function(event) {
 	var tempKey = String.fromCharCode(event.keyCode)
+    console.log(tempKey)
     var key = event.keyCode
     if ((key==189)||(key==45)){
         notePressed("note11")
@@ -74,6 +121,7 @@ for (var i=0; i<13; i++){
 	button.title = i
 	button.id = "note"+i
 	button.classList.add('note');
+    //value is being used for color
     button.addEventListener("mousedown", function(event) {
         notePressed(this.id)
     })
@@ -206,7 +254,7 @@ function setColors(method){
         for (var i=0; i<13; i++){
             var tempColor = chrisColors[(i%12)]
            document.getElementById("note"+i).value = tempColor
-           document.getElementById("note"+i).style.backgroundColor = colorMe("222, 222, 222",1)
+           document.getElementById("note"+i).style.backgroundColor = colorMe("190, 190, 190",1)
         }
     }
 }
@@ -227,12 +275,16 @@ function changeOctave(value){
 }
 
 function notePressed(noteName){
+    var num = (noteName.split("e").pop());
+    onOff[num] = 1
     eval(noteName).play();
     var currentColor = document.getElementById(noteName).value
     document.getElementById(noteName).style.backgroundColor = colorMe(currentColor,1)
 }
 
 function noteUnpressed(noteName){
+    var num = (noteName.split("e").pop());
+    onOff[num] = 0
     eval(noteName).stop();
     var currentColor = document.getElementById(noteName).value
     document.getElementById(noteName).style.backgroundColor = colorMe(currentColor,0.4)
@@ -253,8 +305,11 @@ function changeKey(multiplierStr,noteless){
     var multiplier = Number(multiplierStr)+(currentKeyChange*noteless)
     for (var i=0; i<13; i++){
         var color = Math.abs(Number((2400+i+multiplier))%12);
-        document.getElementById("note"+i).style.backgroundColor = colorMe(colors[color],0.4)
-        document.getElementById("note"+i).value = colors[color]
+        if (colorMethod=='notes'){
+            document.getElementById("note"+i).style.backgroundColor = colorMe(colors[color],0.4)
+            document.getElementById("note"+i).value = colors[color]
+        }
+        
         eval("note"+i).frequency = freqs[i]*Math.pow(1.05946, multiplier);
         document.getElementById("key"+(i%12)).style.backgroundColor = "white";  
     }

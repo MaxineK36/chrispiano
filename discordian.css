@@ -78,6 +78,30 @@ body{
 	height: auto;
 }
 
+#recording{
+	width: 30%;
+	margin-left: 35%;
+	margin-top: 2%;
+	height: auto;
+}
+
+table{
+	margin-top: 2%;
+}
+
+#smaller{
+	width: 30%;
+	margin-left: 35%;
+}
+
+.recCell{
+/*	width: 7.629%;
+*/	
+	height: 20px;
+	width: 2%;
+	/*border-top: solid 0.5px white;*/
+}
+
 
 
 

@@ -20,9 +20,33 @@
         <button onclick="setColors('intervals');" class='otherButton'> Interval-based Colors </button>
     </div>
 
-   
+    <div id="recording"> 
+      <span class="subtext"> Recording: </span>
+         <button onclick="record();" class='otherButton'> Record </button>
+         <button onclick="unRecord();" class='otherButton'> Stop </button>
+    </div>
 
-  	<div id='keyText' style="color: white;"> </div>
+     
+    <div id = "smaller">
+      <table style="width:100%" id="recordingTable">
+        <tr>
+          <th>0</th>
+          <th>1</th> 
+          <th>2</th>
+          <th>3</th>
+          <th>4</th> 
+          <th>5</th>
+          <th>6</th>
+          <th>7</th> 
+          <th>8</th>
+          <th>9</th>
+          <th>10</th> 
+          <th>11</th>
+          <th>12</th>
+        </tr>
+      </table>   
+    </div>
+
     <script src = "Pizz2.js"> </script>
     <script src = "discordian.js"> </script>
   </body>
