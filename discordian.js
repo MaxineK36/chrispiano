@@ -1,4 +1,4 @@
-console.log("12:03")
+console.log("10:32")
 
 var note0on=0;
 var note1on=0
