@@ -16,15 +16,15 @@
 
     <div id="colorScheme"> 
       <span class="subtext"> Color Scheme: </span>
-        <button onclick="setColors('notes');" class='otherButton'> Note-based Colors </button>
-        <button onclick="setColors('intervals');" class='otherButton'> Interval-based Colors </button>
+        <button onclick="setColors('notes');" id="notes" class='otherButton'> Note-based Colors </button>
+        <button onclick="setColors('intervals');"  id="intervals" class='otherButton'> Interval-based Colors </button>
     </div>
 
     <div id="recording"> 
       <span class="subtext"> Recording: </span>
-         <button onclick="record();" class='otherButton'> Record </button>
+         <button onclick="record();" id="recordButton" class='otherButton'> Record </button>
          <button onclick="unRecord();" class='otherButton'> Stop </button>
-         <button onclick="playback();" class='otherButton'> Playback </button>
+         <button onclick="playback();" id="playbackButton" class='otherButton'> Playback </button>
     </div>
 
      

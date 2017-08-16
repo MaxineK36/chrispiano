@@ -25,9 +25,9 @@ var colorMethod = 'notes';
 var currentKeyChange = 0;
 
 
-
 var recVar
 function record(){
+    document.getElementById("recordButton").style.backgroundColor="red"
     recVar = setInterval(function(){ recordNotes(); }, 100);
     document.getElementById("recordingTable").style.color = "white"
 
@@ -35,6 +35,7 @@ function record(){
 }
 
 function unRecord(){
+    document.getElementById("recordButton").style.backgroundColor="white"
     clearInterval(recVar);
     console.log(notesPlayed)
 }
@@ -48,8 +49,6 @@ function recordNotes(){
         if (onOff[i]==1){
             theseNotes.push(1)
             cell.style.border = "solid 0.5px white"
-
-            // cell.style.backgroundColor = "white"
             if (colorMethod=='intervals'){
                 cell.style.backgroundColor = colorMe(chrisColors[i],1)
             }
@@ -67,6 +66,7 @@ function recordNotes(){
 }
 
 function playback(){
+    document.getElementById("playbackButton").style.backgroundColor="rgb(110,110,110)"
     var counter = 0
     var length = notesPlayed.length
     playVar = setInterval(function(){ 
@@ -82,6 +82,7 @@ function playback(){
         counter++
         console.log(counter)
         if (counter==length){
+            document.getElementById("playbackButton").style.backgroundColor="white"
             console.log('clearing')
             clearInterval(playVar);
         }
@@ -177,6 +178,9 @@ for (var i=0; i<12; i++){
  	 } 
 	 document.getElementById("keyChanges").appendChild(button)
 }
+document.getElementById("key0").style.backgroundColor="rgb(110,110,100)"
+
+
 
 //creating note objects, originally set to 0 = A
 var note0 = new Pizzicato.Sound({ 
@@ -276,6 +280,8 @@ setColors('notes');
 
 function setColors(method){
     if (method=="notes"){
+        document.getElementById('notes').style.backgroundColor = "rgb(110,110,110)";
+        document.getElementById('intervals').style.backgroundColor = "rgb(255,255,255)";
         colorMethod = "notes"
         for (var i=0; i<13; i++){
             var tempColor = colors[(i%12)]
@@ -284,6 +290,8 @@ function setColors(method){
         }
     }
     else if (method=="intervals"){
+        document.getElementById('intervals').style.backgroundColor = "rgb(110,110,110)";
+        document.getElementById('notes').style.backgroundColor = "rgb(255,255,255)";
         colorMethod = "intervals"
         for (var i=0; i<13; i++){
             var tempColor = chrisColors[(i%12)]
@@ -343,7 +351,6 @@ function changeKey(multiplierStr,noteless){
             document.getElementById("note"+i).style.backgroundColor = colorMe(colors[color],0.4)
             document.getElementById("note"+i).value = colors[color]
         }
-        
         eval("note"+i).frequency = freqs[i]*Math.pow(1.05946, multiplier);
         document.getElementById("key"+(i%12)).style.backgroundColor = "white";  
     }
