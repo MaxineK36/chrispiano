@@ -19,9 +19,12 @@ var onOff = [note0on,note1on,note2on,note3on,note4on,note5on,note6on,note7on,not
 var freqs = [440,466.164,493.883,523.251,554.365,587.33,622.254,659.255,698.456,739.989, 783.991,830.609,880]
 var colors = ["219,85,73","241,150,51","247,194,56","255,231,78","194,213,62","137,176,58","21,151,144","61,132,181","91,83,143","146,79,143","214,84,129","221,69,90"]
 var chrisColors = ["20,20,20","50,50,50","0, 102, 255","255,0,255","0,204,0","102,51,0","102,0,255","255,0,0","255, 102, 0","255,255,255","220,220,220","255,255,0"]
+var notesPlayed = [];
 
 var colorMethod = 'notes';
 var currentKeyChange = 0;
+
+
 
 var recVar
 function record(){
@@ -33,15 +36,19 @@ function record(){
 
 function unRecord(){
     clearInterval(recVar);
+    console.log(notesPlayed)
 }
 
 function recordNotes(){
     var row = document.createElement("tr")
+    var theseNotes = []
     for (var i =0; i<13; i++){
         var cell = document.createElement("td")
         cell.classList.add('recCell');
         if (onOff[i]==1){
+            theseNotes.push(1)
             cell.style.border = "solid 0.5px white"
+
             // cell.style.backgroundColor = "white"
             if (colorMethod=='intervals'){
                 cell.style.backgroundColor = colorMe(chrisColors[i],1)
@@ -50,11 +57,38 @@ function recordNotes(){
                 cell.style.backgroundColor = colorMe(document.getElementById("note"+i).value,1)
             }
         }
+        else if (onOff[i]==0){
+            theseNotes.push(0)
+        }
         row.appendChild(cell)
     }
+    notesPlayed.push(theseNotes)
     document.getElementById("recordingTable").appendChild(row)
-
 }
+
+function playback(){
+    var counter = 0
+    var length = notesPlayed.length
+    playVar = setInterval(function(){ 
+        recordNotes(); 
+        for (var j = 0; j<13; j++){
+            if (notesPlayed[counter][j]==1){
+                eval("note"+j).play()
+            }
+            else{
+                eval("note"+j).stop();
+            }
+        }
+        counter++
+        console.log(counter)
+        if (counter==length){
+            console.log('clearing')
+            clearInterval(playVar);
+        }
+    }, 100);    
+}
+
+
 //keydown functions (make the notes start playing, allow for arrow keys to be used for octaves up or down)
 document.addEventListener("keydown", function(event) {
 	var tempKey = String.fromCharCode(event.keyCode)
