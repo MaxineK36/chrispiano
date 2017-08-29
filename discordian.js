@@ -1,4 +1,4 @@
-console.log("12:06")
+console.log("5:24")
 var database = firebase.database();
 var d = new Date();
 
@@ -155,14 +155,24 @@ function recordNotes(loopOnOff){
     currentTime = currentTime+recFreq;
 }
 
-combineTracks('A',2)
 
 function combineTracks(name,numberArray){
-    firebase.database().ref(name).once('value').then(function(snapshot) {
+    
+
+}
+
+function playSelected(){
+
+    combineTracks(currentName,tracksToPlay);
+
+
+    console.log(tracksToPlay)
+    console.log('test')
+
+    firebase.database().ref(currentName).once('value').then(function(snapshot) {
         array = snapshot.val();
-        // console.log(array)
         var newArray = [];
-        var size = Object.size(array)
+        var size = tracksToPlay.length
         var tempSize = 0;
         //find the longest size
         for (var i =0; i<size; i++){
@@ -171,39 +181,27 @@ function combineTracks(name,numberArray){
                 tempSize=newtempSize
             }
         }
-        // console.log('temp size '+tempSize)
         for (var j =0; j<tempSize; j++){
             var tempStr = ","
             for (var i =0; i<size; i++){
-                if (array[i][j]!==undefined){
-                    // console.log(array[i][j])
-                    tempStr = tempStr + array[i][j]
+                // console.log("read this "+tracksToPlay.indexOf(array[i]))
+                if (array[tracksToPlay[i]][j]!==undefined){
+                    
+                    tempStr = tempStr + array[tracksToPlay[i]][j]
                 }
             }
-            // console.log(tempStr)
             newArray[j]=tempStr
         }
-
-        //to combine 2 arrays
-        // var size1 = array[i]
-        // var size2 = array[i+1]
-        // console.log(newArray)
-
         updateData('tempComb',newArray)
+        playback(recFreq,'tempComb',1)
 
     })
 
-}
-
-function playSelected(){
-    console.log(tracksToPlay)
-    console.log('test')
-    combineTracks(currentName,tracksToPlay);
-    playback(recFreq,'tempComb',1)
+    
 }
 
 function stopAll(){
-    console.log('stopping all')
+    
     for (var i=0; i<13; i++){
         noteUnpressed("note"+i)
         eval("note"+i).stop()
@@ -213,6 +211,8 @@ function stopAll(){
         document.getElementById(currentName + '/'+tracksToPlay[i]).style.backgroundColor = 'white'
     }
     tracksToPlay = []
+    updateData('tempComb',[])
+    console.log('stopping all')
     console.log(tracksToPlay)
 }
 
@@ -228,28 +228,23 @@ function playback(recordingFrequency,noteArrayKey,loopOnOff){
     firebase.database().ref(noteArrayKey).once('value').then(function(snapshot) {
         
         realArray = snapshot.val();
-
-        // realArray = getObject(noteArrayKey);
-        // console.log(realArray)
         length = realArray.length
-
-        //logging to console
-        // console.log(realArray)
-        // console.log('length '+length)
 
         //happens every recordingFrequency milliseconds
         playVar = setInterval(function(){
             //if the counter gets to the end, set the playback button to white, clear the tempNotes array, and then either reset the counter or end the interval
             if (counter==length){
                 document.getElementById("playbackButton").style.backgroundColor="white"
-                console.log('clearing')
+                // console.log('clearing')
                 for (var j = 0; j<13; j++){
                     if (tempNotes[j]==1){
                         noteUnpressed("note"+j)
                     }
                 }
                 if (loopOnOff==1){
+                    console.log("loop on off = "+loopOnOff)
                     counter = 0
+                    tempNotes = [0,0,0,0,0,0,0,0,0,0,0,0,0]
                 }
                 else {
                     console.log('really clearing')
@@ -259,14 +254,19 @@ function playback(recordingFrequency,noteArrayKey,loopOnOff){
             } 
             //if notes were played at this time...
             if (realArray[counter]!=="no"){
+                            console.log('again')
+
                 //For each note, check to see if it's there and wasn't playing before (in which case turn it on, or that it's missing and *was* playing before, in whcih case turn it off). Adjust the tempNotes array to reflect its new state.
                 for (var j = 0; j<13; j++){
                     if ((realArray[counter].indexOf(","+j+",")!=-1)&&(tempNotes[j]==0)){
+                        console.log('note '+j+" on")
                         notePressed("note"+j)
                         tempNotes[j]=1
                     }
                     else if ((realArray[counter].indexOf(","+j+",")==-1)&&(tempNotes[j]==1)){
+                        console.log('note '+j + ' off')
                         noteUnpressed("note"+j)
+
                         tempNotes[j]=0
                     }
                 }
