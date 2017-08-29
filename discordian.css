@@ -1,16 +1,12 @@
-button{
-
+body{
+	background-color: black;
 }
 
 #keys{
-	background-color: gray;
+	background-color: #4d4d4d;
 	margin: 0;
 	width: 100%;
 	padding: 0;
-}
-
-body{
-	background-color: black;
 }
 
 .note{
@@ -101,7 +97,7 @@ table{
 }
 
 .rec{
-	width: 20%;
+	width: 12%;
 }
 
 #clipping{
@@ -112,7 +108,30 @@ table{
 	color: white;
 }
 
+#looping{
+	width: 30%;
+	margin-left: 35%;
+	margin-top: 2%;
+	height: auto;
+	color: white;
+}
+
+#loopTracks{
+	width: 30%;
+	margin-left: 35%;
+	margin-top: 2%;
+	height: auto;
+	color: white;
+}
+
+
 .clipInput{
 	width: 40px;
+}
+
+.loop{
+	margin-left: 0;
+	width: 100%;
+	margin-top: 2%;
 }
 

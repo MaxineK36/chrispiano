@@ -2,7 +2,6 @@
 <html>
   <head>
   	<link rel="stylesheet" href="discordian.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <body>
   	<div id="keys"></div>
 
@@ -22,10 +21,13 @@
 
     <div id="recording"> 
       <span class="subtext"> Recording: </span>
-         <button onclick="record();" id="recordButton" class='otherButton rec'> Record </button>
-         <button onclick="unRecord();" class='otherButton rec'> Stop </button>
-         <button onclick="playback();" id="playbackButton" class='otherButton rec'> Playback </button>
+         <button onclick="record(0);" id="recordButton" class='otherButton rec'> Record </button>
+         <button onclick="unRecord(0);" class='otherButton rec'> Stop Recording </button>
+         <button onclick="playback(recFreq,'temp/0',0)" id="playbackButton" class='otherButton rec'> Playback </button>
          <button onclick="resetRec();" id="resetButton" class='otherButton rec'> Reset </button>
+         <button onclick="save(1);" id="saveButton" class='otherButton rec'> Save to Loop </button>
+         <button onclick="recallSong()" id="recallButton" class='otherButton rec'> Recall </button>
+
     </div>
 
     <div id="clipping">
@@ -33,6 +35,18 @@
       Start <input name="startClip" id="startClip" class="clipInput"> </input> 
       End <input name="endClip" id="endClip" class="clipInput"> </input> 
       <button onclick="clip()"> Submit </button>
+
+    </div>
+
+    <!-- <div id="looping">
+      <span class="subtext"> Build a song: </span>
+      <button onclick="record(1);" id="recordButton" class='otherButton rec'> Record </button>
+      <button onclick="unRecord();" id="recordButton" class='otherButton rec'>  Stop Recording </button>
+      
+    </div> -->
+    <div id="loopTracks">
+      <button onclick="stopAll();" id="recordButton" class='otherButton loop'>  Stop All Tracks </button>
+      <button onclick="playSelected();" id="recordButton" class='otherButton loop'>  Play Selected Tracks </button>
     </div>
 
      
@@ -56,7 +70,19 @@
         </tr>
       </table>   
     </div>
-
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyB6k2wych2kEo6obMbZ3hfYS_enZqIyOzo",
+        authDomain: "discordian-b9ea7.firebaseapp.com",
+        databaseURL: "https://discordian-b9ea7.firebaseio.com",
+        projectId: "discordian-b9ea7",
+        storageBucket: "discordian-b9ea7.appspot.com",
+        messagingSenderId: "559413043471"
+      };
+      firebase.initializeApp(config);
+    </script>
     <script src = "Pizz2.js"> </script>
     <script src = "discordian.js"> </script>
   </body>
