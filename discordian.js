@@ -1,4 +1,4 @@
-console.log("5:24")
+console.log("9:52")
 
 // var database = firebase.database();
 // var d = new Date();
@@ -228,7 +228,6 @@ function playSelected(){
                 // console.log("read this "+tracksToPlay.indexOf(array[i]))
                 if (array[tracksToPlay[i]][j]!==undefined){
                     tempStr = tempStr + array[tracksToPlay[i]][j]
-                    console.log("temp string = "+tempStr)
                 }
             }
             newArray[j]=tempStr
