@@ -1,4 +1,11 @@
-console.log("10:34")
+console.log("11:18")
+
+ window.onkeydown = function(e){
+if(e.keyCode === 32){
+    e.preventDefault();
+    document.querySelector('a').click();
+}
+}
 
 // var database = firebase.database();
 // var d = new Date();
@@ -157,8 +164,7 @@ function recordNotes(){
             cell.style.backgroundColor = colorMe(document.getElementById("note"+i).value,1)
         }
     }
-    // console.log('notes played is')
-    // console.log(notesPlayed)
+
 
     // if (tempStr != ","){
         if (loopNum == 0){
@@ -187,8 +193,9 @@ function recordNotes(){
 
 
 function loop(){
-    console.log('looping')
+    console.log("loop going "+loopGoing)
     if (loopGoing==0){
+        console.log('looping')
         loopNum = 0;
         if (trackNum != 0){
             // alert(loopLength)
@@ -200,15 +207,14 @@ function loop(){
                 loopNum = loopNum + 1;
                 currentTime = 0;
                 currentLoopTime = 0;
-                console.log('time to stop' + currentTime)
             }
     
         }, recFreq);
 
     }
     else{
+        console.log("we're at the end")
         tracksToPlay.push(trackNum)
-        console.log(tracksToPlay)
         clearInterval(recVar);
         save(1)
         trackNum = trackNum + 1;
@@ -221,7 +227,6 @@ function loop(){
 
 function playSelected(){
     console.log('playing selected')
-    console.log(tracksToPlay)
     firebase.database().ref(currentName).once('value').then(function(snapshot) {
         array = snapshot.val();
         var newArray = [];
@@ -246,9 +251,7 @@ function playSelected(){
             }
             newArray[j]=tempStr
         }
-        console.log(newArray)
         updateData('tempComb',newArray)
-        console.log('data updated')
         playback(recFreq,'tempComb',1)
 
     })
@@ -257,7 +260,7 @@ function playSelected(){
 }
 
 function stopAll(resetOnOff){
-    
+    console.log('stopping all')
     for (var i=0; i<13; i++){
         noteUnpressed("note"+i)
         eval("note"+i).stop()
@@ -270,8 +273,6 @@ function stopAll(resetOnOff){
         tracksToPlay = []
         updateData('tempComb',[])
     }
-    console.log('stopping all')
-    console.log(tracksToPlay)
 }
 
 function playback(recordingFrequency,noteArrayKey,loopOnOff){
@@ -287,7 +288,6 @@ function playback(recordingFrequency,noteArrayKey,loopOnOff){
     firebase.database().ref(noteArrayKey).once('value').then(function(snapshot) {
         
         realArray = snapshot.val();
-        console.log(realArray)
         length = realArray.length
 
         //happens every recordingFrequency milliseconds
@@ -295,7 +295,6 @@ function playback(recordingFrequency,noteArrayKey,loopOnOff){
             //if the counter gets to the end, set the playback button to white, clear the tempNotes array, and then either reset the counter or end the interval
             if (counter==length){
                 document.getElementById("playbackButton").style.backgroundColor="white"
-                console.log('clearing')
                 for (var j = 0; j<13; j++){
                     if (tempNotes[j]==1){
                         noteUnpressed("note"+j)
@@ -394,11 +393,11 @@ function clip(){
 function recallSong(){
     var name = prompt("Under what name is the song saved? (case-sensitive)")
     currentName = name
-    console.log(name)
     firebase.database().ref(name).once('value').then(function(snapshot) {
-        console.log('here')
         var arrayArray = snapshot.val();
         var size = Object.size(arrayArray)
+        loopLength = Object.size(arrayArray[0]);
+        trackNum = size;
         for (var i=0; i<size; i++){
             var trackButton = document.createElement("button");
             trackButton.classList.add("otherButton");
@@ -412,11 +411,15 @@ function recallSong(){
                 // playback(recFreq, this.id, 1)
             } 
             document.getElementById("loopTracks").appendChild(trackButton)
-            console.log('here')
+
         }
     })
 }
+function playSelectedTemp(){
 
+    console.log('uh oh')
+    playSelected();
+}
 
 //size function used to determine the size of thigns from firebase
 Object.size = function(obj){
@@ -469,9 +472,7 @@ function save(loopOnOff){
             document.getElementById("loopTracks").appendChild(trackButton)
         }
 
-        console.log(notesPlayed)
         updateData(newRefKey,notesPlayed)
-        console.log('saved')
         if (loopOnOff==1){
             stopAll(0);
             playSelected();
