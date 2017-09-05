@@ -1,4 +1,4 @@
-console.log("10:04")
+console.log("10:34")
 
 // var database = firebase.database();
 // var d = new Date();
@@ -51,7 +51,6 @@ document.getElementById("clipping").style.display = "none"
 var tracksToPlay = [];
 var currentName = null;
 
-// var currentName = prompt("pick a name");
 
 
 var loopNum = 0;
@@ -69,6 +68,15 @@ var currentTime = 0;
 var currentLoopTime = 0;
 var globalLoopOnOff
 
+var superTemp = 0
+
+function pickName(){
+    if (superTemp==0){
+        console.log('picking name')
+        currentName = prompt("pick a name")
+        superTemp = 1
+    }
+}
 
 
 function record(loopOnOff){
@@ -91,9 +99,7 @@ function record(loopOnOff){
     document.getElementById("clipping").style.display = "block"
 }
 
-function pickName(){
-    currenName = prompt("pick a name")
-}
+
 
 function unRecord(loopOnOff){
     //temporarily store the recording, unless you're looping
@@ -181,6 +187,7 @@ function recordNotes(){
 
 
 function loop(){
+    console.log('looping')
     if (loopGoing==0){
         loopNum = 0;
         if (trackNum != 0){
@@ -224,6 +231,7 @@ function playSelected(){
         //find the longest size
         for (var i = 0; i<size; i++){
             var newtempSize = Object.size(array[i])
+            document.getElementById(currentName+"/"+tracksToPlay[i]).style.backgroundColor = "grey"
             if (newtempSize>tempSize){
                 tempSize=newtempSize
             }
