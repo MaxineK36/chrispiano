@@ -1,4 +1,4 @@
-console.log("9:52")
+console.log("10:04")
 
 // var database = firebase.database();
 // var d = new Date();
@@ -49,9 +49,9 @@ document.getElementById("clipping").style.display = "none"
 
 //temp 
 var tracksToPlay = [];
-// var currentName = null;
+var currentName = null;
 
-var currentName = prompt("pick a name");
+// var currentName = prompt("pick a name");
 
 
 var loopNum = 0;
@@ -68,6 +68,8 @@ var playVar
 var currentTime = 0;
 var currentLoopTime = 0;
 var globalLoopOnOff
+
+
 
 function record(loopOnOff){
     // globalLoopOnOff = loopOnOff
@@ -87,6 +89,10 @@ function record(loopOnOff){
     //make the table visible by making the text white, show the clipping options
     document.getElementById("recordingTable").style.color = "white"
     document.getElementById("clipping").style.display = "block"
+}
+
+function pickName(){
+    currenName = prompt("pick a name")
 }
 
 function unRecord(loopOnOff){

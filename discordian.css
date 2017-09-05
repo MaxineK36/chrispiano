@@ -136,5 +136,9 @@ table{
 }
 
 #loopButton{
-	width: 60%;
+	width: 50%;
+}
+
+#lnameButton{
+	width: 10%;
 }
