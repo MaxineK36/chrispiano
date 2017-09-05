@@ -28,6 +28,13 @@
          <button onclick="save(1);" id="saveButton" class='otherButton rec'> Save to Loop </button>
          <button onclick="recallSong()" id="recallButton" class='otherButton rec'> Recall </button>
 
+
+    </div>
+
+
+     <div id="looping">
+      <span class="subtext"> Build a song: </span>
+      <button onclick="loop();" id="loopButton" class='otherButton rec'> Loop </button>
     </div>
 
     <div id="clipping">
@@ -38,14 +45,11 @@
 
     </div>
 
-    <!-- <div id="looping">
-      <span class="subtext"> Build a song: </span>
-      <button onclick="record(1);" id="recordButton" class='otherButton rec'> Record </button>
-      <button onclick="unRecord();" id="recordButton" class='otherButton rec'>  Stop Recording </button>
+   
       
-    </div> -->
+    </div>
     <div id="loopTracks">
-      <button onclick="stopAll();" id="recordButton" class='otherButton loop'>  Stop All Tracks </button>
+      <button onclick="stopAll(1);" id="recordButton" class='otherButton loop'>  Stop All Tracks </button>
       <button onclick="playSelected();" id="recordButton" class='otherButton loop'>  Play Selected Tracks </button>
     </div>
 

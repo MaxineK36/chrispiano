@@ -1,9 +1,15 @@
-console.log("5:24")
+console.log("12:06")
+var database = firebase.database();
+var d = new Date();
 
-// var database = firebase.database();
-// var d = new Date();
-// var mili = Date.UTC(d.getFullYear(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds(), d.getMilliseconds());
-// console.log(mili)
+var mili = Date.UTC(d.getFullYear(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds(), d.getMilliseconds());
+console.log(mili)
+/*Notes for update:
+- Make it more efficient again ([0,"string of numbers that are notes played"])
+- Then, use indexOf() to look for each number each time- loop through all 13 options for each iteration
+- Also, when looping through teh array to see if it matches the counter, increase the starting point as you go to save time
+- to combine, if that time point exists for either one, simply add the two strings together
+*/
 
 
 //value (1/0) determines whether or not a note is being played
@@ -49,31 +55,20 @@ document.getElementById("clipping").style.display = "none"
 
 //temp 
 var tracksToPlay = [];
-// var currentName = null;
-
-var currentName = prompt("pick a name");
-
-
-var loopNum = 0;
-var trackNum = 0;
-var loopLength;
-var loopGoing = 0;
-//is going = 1
-//isn't going = 0
+var currentName = null;
 
 
 //when the record button is pressed
 var recVar
 var playVar
 var currentTime = 0;
-var currentLoopTime = 0;
 var globalLoopOnOff
 
 function record(loopOnOff){
-    // globalLoopOnOff = loopOnOff
-    // if (loopOnOff==1){
-    //     currentTime = 0;
-    // }
+    globalLoopOnOff = loopOnOff
+    if (loopOnOff==1){
+        currentTime = 0;
+    }
 
     //the record button turns red as you're recording and has a built-in timer
     document.getElementById("recordButton").style.backgroundColor="red"
@@ -91,9 +86,9 @@ function record(loopOnOff){
 
 function unRecord(loopOnOff){
     //temporarily store the recording, unless you're looping
-    // if (loopOnOff==0){
-    updateData("temp/0",notesPlayed)
-    // }
+    if (loopOnOff==0){
+        updateData("temp/0",notesPlayed)
+    }
     //make the record button white again
     document.getElementById("recordButton").style.backgroundColor="white"
 
@@ -101,13 +96,14 @@ function unRecord(loopOnOff){
     clearInterval(recVar); 
 }
 
-function recordNotes(){
+function recordNotes(loopOnOff){
     //have the new timer show up
     document.getElementById("recordButton").innerHTML="Record: "+(currentTime/1000)+"s"
+   
     var rowExists = document.getElementById("row"+currentTime/recFreq)
 
-    //sets up the line of notes for the visualiation
     if (rowExists==null){
+        //sets up the line of notes for the visualiation
         var row = document.createElement("tr")
         row.id = "row"+(currentTime/recFreq)
 
@@ -119,7 +115,6 @@ function recordNotes(){
         row.appendChild(firstCell)
     }
 
-    //sets the temp string to empty
     var tempStr = ","
     for (var i =0; i<13; i++){
         var cell
@@ -133,90 +128,54 @@ function recordNotes(){
 
         }
         else{
-            //if there is one, still use it to define the variable 'cell'
+            //if there is one, still use it to define the variable cell
             cell=document.getElementById("row"+currentTime/recFreq+"cell"+i)
         }
         
         //if the note is being played, 
         if (onOff[i]==1){
-            tempStr=tempStr+i+","+'p'
+            tempStr=tempStr+i+","
             // tempArray.push(1)
             cell.style.border = "solid 0.5px white"
             cell.style.backgroundColor = colorMe(document.getElementById("note"+i).value,1)
         }
     }
-    // console.log('notes played is')
-    // console.log(notesPlayed)
+    if (tempStr != ","){
+        notesPlayed[currentTime/recFreq] = tempStr
+    }
+    else {
+        notesPlayed[currentTime/recFreq] = "no"
+    }
 
-    // if (tempStr != ","){
-        if (loopNum == 0){
-            notesPlayed[currentTime/recFreq] = tempStr  
-            // console.log("loop number :" + loopNum)          
-        }
-        else{
-            notesPlayed[currentTime/recFreq].push(tempStr)
-            // console.log("loop number :" + loopNum)
-        }
-    // }
-    // else {
-    //     if (loopNum == 0){
-    //         notesPlayed[currentTime/recFreq] = "no"  
-    //     }
-    //     // notesPlayed[currentTime/recFreq] = "no"
-    // }
 
     if (rowExists==null){
         document.getElementById("recordingTable").appendChild(row)
     }
     //increases the timer
     currentTime = currentTime+recFreq;
-    currentLoopTime = currentLoopTime + 1;
 }
 
 
-function loop(){
-    if (loopGoing==0){
-        loopNum = 0;
-        if (trackNum != 0){
-            // alert(loopLength)
-        }
-        recVar = setInterval(function(){ 
-            loopGoing=1
-            recordNotes(); 
-            if (currentLoopTime==loopLength){
-                loopNum = loopNum + 1;
-                currentTime = 0;
-                currentLoopTime = 0;
-                console.log('time to stop' + currentTime)
-            }
+function combineTracks(name,numberArray){
     
-        }, recFreq);
 
-    }
-    else{
-        tracksToPlay.push(trackNum)
-        console.log(tracksToPlay)
-        clearInterval(recVar);
-        save(1)
-        trackNum = trackNum + 1;
-        loopGoing=0
-        
-    }
-    
 }
-
 
 function playSelected(){
-    console.log('playing selected')
+
+    combineTracks(currentName,tracksToPlay);
+
+
     console.log(tracksToPlay)
+    console.log('test')
+
     firebase.database().ref(currentName).once('value').then(function(snapshot) {
         array = snapshot.val();
         var newArray = [];
-        var size = tracksToPlay.length
+        var size = Object.size(array)
         var tempSize = 0;
-        // console.log(array)
         //find the longest size
-        for (var i = 0; i<size; i++){
+        for (var i =0; i<size; i++){
             var newtempSize = Object.size(array[i])
             if (newtempSize>tempSize){
                 tempSize=newtempSize
@@ -225,17 +184,15 @@ function playSelected(){
         for (var j =0; j<tempSize; j++){
             var tempStr = ","
             for (var i =0; i<size; i++){
-                // console.log("read this "+tracksToPlay.indexOf(array[i]))
-                if (array[tracksToPlay[i]][j]!==undefined){
-                    tempStr = tempStr + array[tracksToPlay[i]][j]
-                    console.log("temp string = "+tempStr)
+                console.log("read this "+tracksToPlay.indexOf(array[i]))
+                if ((tracksToPlay.indexOf(array[i])!==-1)&&(array[i][j]!==undefined){
+                    
+                    tempStr = tempStr + array[i][j]
                 }
             }
             newArray[j]=tempStr
         }
-        console.log(newArray)
         updateData('tempComb',newArray)
-        console.log('data updated')
         playback(recFreq,'tempComb',1)
 
     })
@@ -243,7 +200,7 @@ function playSelected(){
     
 }
 
-function stopAll(resetOnOff){
+function stopAll(){
     
     for (var i=0; i<13; i++){
         noteUnpressed("note"+i)
@@ -253,16 +210,13 @@ function stopAll(resetOnOff){
     for (var i=0; i<tracksToPlay.length; i++){
         document.getElementById(currentName + '/'+tracksToPlay[i]).style.backgroundColor = 'white'
     }
-    if (resetOnOff == 1){
-        tracksToPlay = []
-        updateData('tempComb',[])
-    }
+    tracksToPlay = []
+    updateData('tempComb',[])
     console.log('stopping all')
     console.log(tracksToPlay)
 }
 
 function playback(recordingFrequency,noteArrayKey,loopOnOff){
-    console.log('playback time')
     //length determines how long the counter should go, counter increases each time the function occurs
     var length;
     var counter = 0
@@ -274,7 +228,6 @@ function playback(recordingFrequency,noteArrayKey,loopOnOff){
     firebase.database().ref(noteArrayKey).once('value').then(function(snapshot) {
         
         realArray = snapshot.val();
-        console.log(realArray)
         length = realArray.length
 
         //happens every recordingFrequency milliseconds
@@ -282,40 +235,31 @@ function playback(recordingFrequency,noteArrayKey,loopOnOff){
             //if the counter gets to the end, set the playback button to white, clear the tempNotes array, and then either reset the counter or end the interval
             if (counter==length){
                 document.getElementById("playbackButton").style.backgroundColor="white"
-                console.log('clearing')
+                // console.log('clearing')
                 for (var j = 0; j<13; j++){
                     if (tempNotes[j]==1){
                         noteUnpressed("note"+j)
                     }
                 }
                 if (loopOnOff==1){
-                    // console.log("loop on off = "+loopOnOff)
                     counter = 0
-                    currentTime = 0;
-                    currentLoopTime = 0;
-                    tempNotes = [0,0,0,0,0,0,0,0,0,0,0,0,0]
                 }
                 else {
-                    // console.log('really clearing')
+                    console.log('really clearing')
                     clearInterval(playVar);
-                    stopAll(1);
+                    stopAll();
                 }
             } 
             //if notes were played at this time...
-            if (realArray[counter].indexOf("p")!=-1){
-                            // console.log('again')
-
+            if (realArray[counter]!=="no"){
                 //For each note, check to see if it's there and wasn't playing before (in which case turn it on, or that it's missing and *was* playing before, in whcih case turn it off). Adjust the tempNotes array to reflect its new state.
                 for (var j = 0; j<13; j++){
                     if ((realArray[counter].indexOf(","+j+",")!=-1)&&(tempNotes[j]==0)){
-                        // console.log('note '+j+" on")
                         notePressed("note"+j)
                         tempNotes[j]=1
                     }
                     else if ((realArray[counter].indexOf(","+j+",")==-1)&&(tempNotes[j]==1)){
-                        // console.log('note '+j + ' off')
                         noteUnpressed("note"+j)
-
                         tempNotes[j]=0
                     }
                 }
@@ -338,7 +282,6 @@ function playback(recordingFrequency,noteArrayKey,loopOnOff){
 function resetRec(){
     //reset the current name, the notesplayed array, and the recording table
     currentTime = 0;
-    currentLoopTime = 0;
     notesPlayed = [];
     document.getElementById("recordingTable").innerHTML = "<tr> <th> </th> <th>0</th> <th>1</th> <th>2</th> <th>3</th> <th>4</th> <th>5</th> <th>6</th> <th>7</th> <th>8</th> <th>9</th> <th>10</th> <th>11</th> <th>12</th> </tr>"
 
@@ -399,7 +342,6 @@ function recallSong(){
                 // playback(recFreq, this.id, 1)
             } 
             document.getElementById("loopTracks").appendChild(trackButton)
-            console.log('here')
         }
     })
 }
@@ -416,11 +358,9 @@ Object.size = function(obj){
 function updateData(refKey,item){
     //updates to firebase
     firebase.database().ref(refKey).set(item);
-    resetRec()
 }
 
 function save(loopOnOff){
-    console.log('saving')
     var name
     if (currentName==null){
         name = prompt("What's your name?")
@@ -429,19 +369,13 @@ function save(loopOnOff){
     else{
         name = currentName
     }
-    if (trackNum == 0){
-                // alert("i'm here")
-                loopLength = notesPlayed.length;
-                // alert('here '+loopLength)
-    }
-    var size; //this could be changed to let the user adjust it
     
+    var size; //this could be changed to let the user adjust it
     
     firebase.database().ref(name).once('value').then(function(snapshot) {
         size = Object.size(snapshot.val());
         var newRefKey = name+"/"+size
         if (loopOnOff==1){
-
             var trackButton = document.createElement("button");
             trackButton.classList.add("otherButton");
             trackButton.classList.add("loop");
@@ -455,14 +389,7 @@ function save(loopOnOff){
             } 
             document.getElementById("loopTracks").appendChild(trackButton)
         }
-
-        console.log(notesPlayed)
         updateData(newRefKey,notesPlayed)
-        console.log('saved')
-        if (loopOnOff==1){
-            stopAll(0);
-            playSelected();
-        }
     })
 
 }
@@ -481,11 +408,8 @@ document.addEventListener("keydown", function(event) {
     if (key==82){
         recallSong(prompt("name?"))
     }
-    //end temporary section
 
-    if (key==32){
-        loop();
-    }
+    //end temporary section
 
     if ((key==189)||(key==45)){
         notePressed("note11",1)
